@@ -7,12 +7,19 @@ pkgdesc="GNU Emacs, with Tree Sitter and more."
 url="http://www.gnu.org/software/emacs/"
 license=("GPL3")
 
-depends=('gnutls' 'libxml2' 'jansson'
-	'harfbuzz'
+depends=(
 	'libgccjit'
 	'gtk3'
+	'gnutls'
+	'jansson'
+	'harfbuzz'
 	'webkit2gtk'
-	'gpm')
+	'libxml2'
+	'gpm'
+	'alsa-lib'
+	'libjpeg-turbo'
+	'giflib'
+)
 makedepends=('git' 'xorgproto' 'libxi')
 
 provides=('emacs')

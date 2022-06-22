@@ -1,0 +1,24 @@
+pkgbase = emacs-treesit-git
+	pkgdesc = GNU Emacs, with Tree Sitter and more.
+	pkgver = 29.0.50.1
+	pkgrel = 1
+	url = http://www.gnu.org/software/emacs/
+	arch = x86_64
+	license = GPL3
+	makedepends = git
+	makedepends = xorgproto
+	makedepends = libxi
+	depends = gnutls
+	depends = libxml2
+	depends = jansson
+	depends = harfbuzz
+	depends = libgccjit
+	depends = gtk3
+	depends = webkit2gtk
+	depends = gpm
+	provides = emacs
+	replaces = emacs
+	source = emacs::git+https://gitlab.com/emacs-mirror-daan/emacs.git
+	cksums = SKIP
+
+pkgname = emacs-treesit-git
