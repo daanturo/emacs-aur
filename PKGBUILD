@@ -83,6 +83,7 @@ function build() {
 }
 
 function package() {
+
 	cd "$srcdir/emacs"
 	make DESTDIR="$pkgdir/" install
 
