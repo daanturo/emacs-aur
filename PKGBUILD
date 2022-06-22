@@ -1,7 +1,7 @@
 pkgname="emacs-treesit-git"
 pkgver=29.0.50.1
 pkgrel=1
-arch=("any")
+arch=("x86_64")
 
 pkgdesc="GNU Emacs, with Tree Sitter and more."
 url="http://www.gnu.org/software/emacs/"
@@ -36,8 +36,8 @@ function pkgver() {
 
 function prepare() {
 	cd "$srcdir/emacs"
-	[[ -x configure ]] || (./autogen.sh git && ./autogen.sh autoconf)
-	mkdir -p "$srcdir/emacs/build"
+	# [[ -f ./configure ]] && rm ./configure
+	[[ -f ./configure ]] || ./autogen.sh
 }
 
 function build() {
@@ -45,9 +45,6 @@ function build() {
 	cd "$srcdir/emacs"
 
 	export PATH="/usr/lib/ccache/bin/:$PATH"
-
-	# [[ -f ./configure ]] && rm ./configure
-	[[ -f ./configure ]] || ./autogen.sh
 
 	local _confflags=" \
     --sysconfdir=/etc \
@@ -73,7 +70,8 @@ function build() {
 	# --without-gconf
 	# --without-gsettings
 
-	make NATIVE_FULL_AOT=0 -j$(($(nproc) / 2))
+	# make NATIVE_FULL_AOT=1 -j$(($(nproc) / 2))
+	make -j$(($(nproc) / 2))
 
 }
 
