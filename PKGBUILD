@@ -62,7 +62,7 @@ function build() {
 
 	./configure \
 		${_confflags} \
-		--program-transform-name=s/\([ec]tags\)/\1.emacs/ \
+		--program-transform-name='s/\([ec]tags\)/\1.emacs/' \
 		--with-json \
 		--with-libsystemd \
 		--with-mailutils \
