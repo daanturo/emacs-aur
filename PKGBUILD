@@ -18,14 +18,13 @@ makedepends=('git' 'xorgproto' 'libxi')
 provides=('emacs')
 replaces=('emacs')
 
-_MY_REPO='https://gitlab.com/emacs-mirror-daan/emacs.git'
+_REPO='https://gitlab.com/emacs-mirror-daan/emacs.git'
 
-source=("emacs::git+${_MY_REPO}")
+source=("emacs::git+${_REPO}")
 cksums=('SKIP')
 
-[[ -d ./emacs/ ]] || git clone --bare --depth=1 $_MY_REPO emacs
-mkdir -p src
-[[ -d ./src/emacs/ ]] || git clone --depth=1 $_MY_REPO src/emacs
+# Force shallow clone
+[[ -d ./emacs/ ]] || git clone --bare --depth=1 $_REPO emacs
 
 function pkgver() {
 	cd "$srcdir/emacs"
@@ -47,8 +46,8 @@ function build() {
 
 	export PATH="/usr/lib/ccache/bin/:$PATH"
 
-	[[ -f ./configure ]] && rm ./configure
-	./autogen.sh
+	# [[ -f ./configure ]] && rm ./configure
+	[[ -f ./configure ]] || ./autogen.sh
 
 	local _confflags=" \
     --sysconfdir=/etc \
