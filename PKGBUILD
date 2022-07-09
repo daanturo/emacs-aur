@@ -1,5 +1,5 @@
 pkgname="emacs-treesit-git"
-pkgver=29.0.50.1
+pkgver=29.0.50.157953
 pkgrel=1
 arch=("x86_64")
 
@@ -36,9 +36,9 @@ cksums=('SKIP')
 function pkgver() {
 	cd "$srcdir/emacs"
 	printf "%s.%s" \
-		"$(grep AC_INIT configure.ac |
-			sed -e 's/^.\+\ \([0-9]\+\.[0-9]\+\.[0-9]\+\?\).\+$/\1/')" \
-		"$(git rev-list --count HEAD)"
+		$(grep AC_INIT configure.ac |
+			awk -F',' '{ gsub("[ \\[\\]]","",$2); print $2 }') \
+		$(git rev-list --count HEAD)
 }
 
 function prepare() {
