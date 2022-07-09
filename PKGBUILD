@@ -77,8 +77,8 @@ function build() {
 	# --without-gconf
 	# --without-gsettings
 
-	make NATIVE_FULL_AOT=1 -j$(($(nproc) / 2))
-	# make -j$(($(nproc) / 2))
+	make NATIVE_FULL_AOT=1
+	# make
 
 }
 
