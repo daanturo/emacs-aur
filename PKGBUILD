@@ -24,6 +24,7 @@ makedepends=('git' 'xorgproto' 'libxi')
 
 provides=('emacs')
 replaces=('emacs')
+conflics=('emacs')
 
 _REPO='https://gitlab.com/emacs-mirror-daan/emacs.git'
 
