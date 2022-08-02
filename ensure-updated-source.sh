@@ -3,27 +3,41 @@
 _dir="$(dirname $0)"
 
 _bare_dir="$_dir/emacs"
-_source_dir="$_dir/src/emacs"
+_src_dir="$_dir/src/emacs"
+
+_tmp_bare_dir="$(mktemp -d)"
+_tmp_src_dir="$(mktemp -d)"
 
 source $_dir/PKGBUILD
 
 echo "	Updating bare repo in $_bare_dir"
-# rm -rf $_bare_dir
-[[ -d $_bare_dir ]] || git clone --bare --depth=1 $_REPO $_bare_dir
+
+# Just delete the bare repo is simpler
+
+mkdir -p $_bare_dir
+git clone --bare --depth=1 $_REPO $_tmp_bare_dir
+rsync -r --remove-source-files $_tmp_bare_dir/. $_bare_dir/
 
 cd $_bare_dir
 _branch="$(git branch --show-current)"
 
-git fetch --depth=1 --prune origin $_branch:$_branch
+# git fetch --prune origin $_branch:$_branch
 
-echo "	Updating source code in $_source_dir"
+echo "	Updating source code in $_src_dir"
 
-[[ -d $_source_dir ]] || git clone $_bare_dir $_source_dir
+if [[ -d $_src_dir ]]; then
+    git clone $_bare_dir $_tmp_src_dir
+    rsync -r --remove-source-files $_tmp_src_dir/. $_src_dir/
+else
+    git clone $_bare_dir $_src_dir
+fi
 
-cd $_source_dir
+# cd $_src_dir
 
 # # makepkg creates the source directory with "origin" pointed to the bare repo
 # git remote add origin1 $_REPO 2>/dev/null
 # git fetch --depth=1 origin1 $_branch
 # git reset --hard origin1/$_branch
-git reset --hard origin/$_branch # --git-dir="$_bare_dir"
+
+## doesn't work!
+# git reset --hard origin/$_branch # --git-dir="$_bare_dir"
