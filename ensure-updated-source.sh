@@ -25,12 +25,9 @@ _branch="$(git branch --show-current)"
 
 echo "	Updating source code in $_src_dir"
 
-if [[ -d $_src_dir ]]; then
-    git clone $_bare_dir $_tmp_src_dir
-    rsync -r --remove-source-files $_tmp_src_dir/. $_src_dir/
-else
-    git clone $_bare_dir $_src_dir
-fi
+mkdir -p $_src_dir
+git clone $_bare_dir $_tmp_src_dir
+rsync -r --remove-source-files $_tmp_src_dir/. $_src_dir/
 
 # cd $_src_dir
 
