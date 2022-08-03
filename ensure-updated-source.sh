@@ -5,7 +5,7 @@ _dir="$(dirname $0)"
 _bare_dir="$_dir/emacs"
 _src_dir="$_dir/src/emacs"
 
-_tmp_bare_dir="$(mktemp -d)"
+# _tmp_bare_dir="$(mktemp -d)"
 _tmp_src_dir="$(mktemp -d)"
 
 source $_dir/PKGBUILD
@@ -14,9 +14,8 @@ echo "	Updating bare repo in $_bare_dir"
 
 # Just delete the bare repo is simpler
 
-mkdir -p $_bare_dir
-git clone --bare --depth=1 $_REPO $_tmp_bare_dir
-rsync -r --remove-source-files $_tmp_bare_dir/. $_bare_dir/
+rm -rf $_bare_dir
+git clone --bare --depth=1 $_REPO $_bare_dir
 
 cd $_bare_dir
 _branch="$(git branch --show-current)"

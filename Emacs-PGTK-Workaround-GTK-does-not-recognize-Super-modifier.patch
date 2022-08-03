@@ -1,0 +1,52 @@
+From b8bbdf7d1e8238341661899e4649fff0693153f3 Mon Sep 17 00:00:00 2001
+From: Daanturo <daanturo@gmail.com>
+Date: Fri, 17 Jun 2022 18:02:17 +0700
+Subject: [PATCH] Workaround GTK does not recognize Super modifier
+
+---
+ src/pgtkterm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/pgtkterm.c b/src/pgtkterm.c
+index b283cef7cd..c1b49b611a 100644
+--- a/src/pgtkterm.c
++++ b/src/pgtkterm.c
+@@ -5049,7 +5049,7 @@ pgtk_gtk_to_emacs_modifiers (struct pgtk_display_info *dpyinfo, int state)
+     mod |= mod_ctrl;
+   if (state & GDK_META_MASK || state & GDK_MOD1_MASK)
+     mod |= mod_meta;
+-  if (state & GDK_SUPER_MASK)
++  if (state & (GDK_SUPER_MASK | GDK_MOD4_MASK))
+     mod |= mod_super;
+   if (state & GDK_HYPER_MASK)
+     mod |= mod_hyper;
+@@ -5072,7 +5072,7 @@ pgtk_emacs_to_gtk_modifiers (struct pgtk_display_info *dpyinfo, int state)
+ 
+   mask = 0;
+   if (state & mod_super)
+-    mask |= GDK_SUPER_MASK;
++    mask |= (GDK_SUPER_MASK | GDK_MOD4_MASK);
+   if (state & mod_hyper)
+     mask |= GDK_HYPER_MASK;
+   if (state & shift_modifier)
+@@ -5182,7 +5182,7 @@ key_press_event (GtkWidget *widget, GdkEvent *event, gpointer *user_data)
+       /* While super is pressed, the input method will always always
+ 	 resend the key events ignoring super.  As a workaround, don't
+ 	 filter key events with super or hyper pressed.  */
+-      if (!(event->key.state & (GDK_SUPER_MASK | GDK_HYPER_MASK)))
++ if (!(event->key.state & ((GDK_SUPER_MASK | GDK_MOD4_MASK) | GDK_HYPER_MASK)))
+ 	{
+ 	  if (pgtk_im_filter_keypress (f, &event->key))
+ 	    return TRUE;
+@@ -5198,7 +5198,7 @@ key_press_event (GtkWidget *widget, GdkEvent *event, gpointer *user_data)
+          Don't do it here because XLookupString is too eager.  */
+       state &= ~GDK_CONTROL_MASK;
+       state &= ~(GDK_META_MASK
+-		 | GDK_SUPER_MASK | GDK_HYPER_MASK | GDK_MOD1_MASK);
++		 | (GDK_SUPER_MASK | GDK_MOD4_MASK) | GDK_HYPER_MASK | GDK_MOD1_MASK);
+ 
+       nbytes = event->key.length;
+       if (nbytes > copy_bufsiz)
+-- 
+2.37.1
+
