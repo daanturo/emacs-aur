@@ -28,11 +28,10 @@ mkdir -p $_src_dir
 
 # Delete old tracked source files (some of them maybe moved/deleted upstream)
 cd $_src_dir
-rm -rf $(git ls-files)
+rm -rf $(git ls-files) .git
 
 git clone $_bare_dir $_tmp_src_dir
 rsync -r --remove-source-files $_tmp_src_dir/. $_src_dir/
-
 
 # # makepkg creates the source directory with "origin" pointed to the bare repo
 # git remote add origin1 $_REPO 2>/dev/null
