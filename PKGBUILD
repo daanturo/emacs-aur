@@ -26,9 +26,9 @@ provides=('emacs')
 replaces=('emacs')
 conflicts=('emacs')
 
-_REPO='https://gitlab.com/emacs-mirror-daan/emacs.git'
+_REPO_URL='https://gitlab.com/emacs-mirror-daan/emacs.git'
 
-source=("emacs::git+${_REPO}")
+source=("emacs::git+${_REPO_URL}")
 cksums=('SKIP')
 
 function pkgver() {
@@ -43,7 +43,8 @@ function prepare() {
     cd "$srcdir/emacs"
     # [[ -f ./configure ]] && rm ./configure
     [[ -f ./configure ]] || ./autogen.sh
-    make mostlyclean
+    # mostlyclean doesn't delete stale native-lisp/*
+    make clean
 }
 
 function build() {

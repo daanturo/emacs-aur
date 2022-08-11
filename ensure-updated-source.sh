@@ -8,14 +8,17 @@ _src_dir="$_dir/src/emacs"
 # _tmp_bare_dir="$(mktemp -d)"
 _tmp_src_dir="$(mktemp -d)"
 
+# Get repo URL
 source $_dir/PKGBUILD
+
+find $_dir -name '*~' -delete
 
 echo "	Updating bare repo in $_bare_dir"
 
 # Just delete the bare repo is simpler
 
 rm -rf $_bare_dir
-git clone --bare --depth=1 $_REPO $_bare_dir
+git clone --bare --depth=1 $_REPO_URL $_bare_dir
 
 cd $_bare_dir
 _branch="$(git branch --show-current)"
@@ -34,7 +37,7 @@ git clone $_bare_dir $_tmp_src_dir
 rsync -r --remove-source-files $_tmp_src_dir/. $_src_dir/
 
 # # makepkg creates the source directory with "origin" pointed to the bare repo
-# git remote add origin1 $_REPO 2>/dev/null
+# git remote add origin1 $_REPO_URL 2>/dev/null
 # git fetch --depth=1 origin1 $_branch
 # git reset --hard origin1/$_branch
 
