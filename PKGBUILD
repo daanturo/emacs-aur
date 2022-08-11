@@ -43,6 +43,7 @@ function prepare() {
     cd "$srcdir/emacs"
     # [[ -f ./configure ]] && rm ./configure
     [[ -f ./configure ]] || ./autogen.sh
+    make mostlyclean
 }
 
 function build() {
