@@ -11,6 +11,10 @@ _tmp_src_dir="$(mktemp -d)"
 # Get repo URL
 source $_dir/PKGBUILD
 
+cd "$_dir"
+# Delete the old .tar.* ball
+git clean -fX
+
 find $_dir -name '*~' -delete
 
 echo "	Updating bare repo in $_bare_dir"

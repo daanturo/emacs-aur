@@ -86,5 +86,6 @@ function package() {
 
     cd "$srcdir/emacs"
     make DESTDIR="$pkgdir/" install
+    chown -R root:root "$pkgdir"/{*,.*}
 
 }
