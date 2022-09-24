@@ -8,17 +8,18 @@ url="http://www.gnu.org/software/emacs/"
 license=("GPL3")
 
 depends=(
-    'libgccjit'
-    'gtk3'
-    'gnutls'
-    'jansson'
-    'harfbuzz'
-    'webkit2gtk'
-    'libxml2'
-    'gpm'
     'alsa-lib'
-    'libjpeg-turbo'
     'giflib'
+    'gnutls'
+    'gpm'
+    'gtk3'
+    'harfbuzz'
+    'jansson'
+    'libgccjit'
+    'libjpeg-turbo'
+    'libotf'
+    'libxml2'
+    'webkit2gtk'
 )
 makedepends=('git' 'xorgproto' 'libxi')
 
