@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-_dir="$(dirname $0)"
+_dir="$(realpath $(dirname $0))"
 
 _bare_dir="$_dir/emacs"
 _src_dir="$_dir/src/emacs"
@@ -10,6 +10,8 @@ _tmp_src_dir="$(mktemp -d)"
 
 # Get repo URL
 source $_dir/PKGBUILD
+
+set -x
 
 cd "$_dir"
 # Delete the old .tar.* ball
@@ -35,7 +37,10 @@ mkdir -p $_src_dir
 
 # Delete old tracked source files (some of them maybe moved/deleted upstream)
 cd $_src_dir
-rm -rf $(git ls-files) .git
+(
+    { set +x; } 2>/dev/null
+    rm -rf $(git ls-files) .git
+)
 
 git clone $_bare_dir $_tmp_src_dir
 rsync -r --remove-source-files $_tmp_src_dir/. $_src_dir/

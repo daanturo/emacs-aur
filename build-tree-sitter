@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+emacs_dir=~/.config/emacs
+
+build_dir=$emacs_dir/tree-sitter-module
+module_dir=$emacs_dir/tree-sitter
+
+mkdir -p $emacs_dir
+
+set -x
+
+if [[ -d $build_dir ]]; then
+    cd $build_dir
+    git pull
+else
+    git clone https://github.com/casouri/tree-sitter-module "$build_dir"
+fi
+
+cd $build_dir
+
+./batch.sh
+
+test -d $module_dir || ln -s -T $build_dir/dist $module_dir
+
+# Cannot load language definition: "cedet/semantic/wisent/python.el", "python",
+# ("/home/dan/.config/emacs/tree-sitter/libtree-sitter-python: cannot open
+# shared object file: No such file or directory"
+# "/home/dan/.config/emacs/tree-sitter/libtree-sitter-python.so: cannot open
+# shared object file: No such file or directory" "libtree-sitter-python: cannot
+# open shared object file: No such file or directory" "libtree-sitter-python.so:
+# cannot open shared object file: No such file or directory")
