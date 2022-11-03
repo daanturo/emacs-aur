@@ -68,18 +68,17 @@ function build() {
         --with-libsystemd \
         --with-mailutils \
         --with-modules \
-        --with-native-compilation \
         --with-pgtk --without-xaw3d \
         --with-sound=alsa \
         --with-xinput2 \
         --with-xwidgets \
         --without-compress-install \
+        --with-native-compilation=aot \
         --with-tree-sitter
     # --without-gconf
     # --without-gsettings
 
-    make NATIVE_FULL_AOT=1
-    # make
+    make
 
 }
 
