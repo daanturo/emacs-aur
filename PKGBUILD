@@ -28,8 +28,10 @@ replaces=('emacs')
 conflicts=('emacs')
 
 _REPO_URL='https://gitlab.com/emacs-mirror-daan/emacs.git'
+_REPO_BRANCH=""
 
-source=("emacs::git+${_REPO_URL}")
+source=("emacs::git+${_REPO_URL}#$([[ -n $_REPO_BRANCH ]] && echo "branch=$_REPO_BRANCH")")
+
 cksums=('SKIP')
 
 function pkgver() {

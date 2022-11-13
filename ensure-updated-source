@@ -24,7 +24,7 @@ echo "	Updating bare repo in $_bare_dir"
 # Just delete the bare repo is simpler
 
 rm -rf $_bare_dir
-git clone --bare --depth=1 $_REPO_URL $_bare_dir
+git clone --bare --depth=1 $_REPO_URL $_bare_dir $([[ -n $_REPO_BRANCH ]] && echo "--branch=$_REPO_BRANCH")
 
 cd $_bare_dir
 _branch="$(git branch --show-current)"
