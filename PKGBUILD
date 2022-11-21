@@ -1,4 +1,4 @@
-pkgname="emacs-treesit-git"
+pkgname="emacs-my-build-git"
 pkgver=29.0.50.1
 pkgrel=1
 arch=("x86_64")

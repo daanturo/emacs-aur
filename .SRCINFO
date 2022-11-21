@@ -1,4 +1,4 @@
-pkgbase = emacs-treesit-git
+pkgbase = emacs-my-build-git
 	pkgdesc = GNU Emacs, with Tree Sitter and more.
 	pkgver = 29.0.50.1
 	pkgrel = 1
@@ -24,4 +24,4 @@ pkgbase = emacs-treesit-git
 	source = emacs::git+https://gitlab.com/emacs-mirror-daan/emacs.git
 	cksums = SKIP
 
-pkgname = emacs-treesit-git
+pkgname = emacs-my-build-git

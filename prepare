@@ -4,4 +4,4 @@ _dir="$(realpath $(dirname $0))"
 
 $_dir/ensure-updated-source
 
-$_dir/build-tree-sitter
+# $_dir/build-tree-sitter
