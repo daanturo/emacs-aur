@@ -27,7 +27,10 @@ provides=('emacs')
 replaces=('emacs')
 conflicts=('emacs')
 
-_REPO_URL='https://gitlab.com/emacs-mirror-daan/emacs.git'
+_REPO_URL='https://gitlab.com/daemacs-daan/emacs.git'
+# _REPO_URL='https://git.savannah.gnu.org/git/emacs.git'
+# _REPO_URL='https://emba.gnu.org/emacs/emacs.git'
+# _REPO_URL='https://github.com/emacs-mirror/emacs.git'
 _REPO_BRANCH=""
 
 source=("emacs::git+${_REPO_URL}#$([[ -n $_REPO_BRANCH ]] && echo "branch=$_REPO_BRANCH")")
@@ -65,7 +68,7 @@ function build() {
 
     ./configure \
         ${_confflags} \
-        --program-transform-name='s/\([ec]tags\)/\1.emacs/' \
+        --program-transform-name='s/\(ctags\)/\1.emacs/' \
         --with-json \
         --with-libsystemd \
         --with-mailutils \
