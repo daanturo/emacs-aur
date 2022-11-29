@@ -1,7 +1,7 @@
-From d5c4decb870cc6e68ec3621e60e8f5bc0f2fe42b Mon Sep 17 00:00:00 2001
+From 26b83dfe7d383248100495fd7694295fa028cbe0 Mon Sep 17 00:00:00 2001
 From: Daanturo <daanturo@gmail.com>
 Date: Fri, 17 Jun 2022 18:02:17 +0700
-Subject: [PATCH 1/2] Workaround GTK does not recognize Super modifier
+Subject: [PATCH 1/3] Workaround GTK does not recognize Super modifier
 
 ---
  src/pgtkterm.c | 8 ++++----
@@ -51,27 +51,26 @@ index 13f6c6c3c4..578acbda6f 100644
 2.38.1
 
 
-From 944d873641da360a34dee5a67b6ac367d037c72b Mon Sep 17 00:00:00 2001
+From fe9f0f225298ee9fa2f0d67dd132a58a73992b3a Mon Sep 17 00:00:00 2001
 From: Daanturo <daanturo@gmail.com>
 Date: Tue, 22 Nov 2022 14:55:11 +0700
-Subject: [PATCH 2/2] Write merge-push.sh
+Subject: [PATCH 2/3] Write merge-push.sh
 
 ---
- merge-push.sh | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ merge-push.sh | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
  create mode 100755 merge-push.sh
 
 diff --git a/merge-push.sh b/merge-push.sh
 new file mode 100755
-index 0000000000..f4ac32148f
+index 0000000000..8cc428d5a0
 --- /dev/null
 +++ b/merge-push.sh
-@@ -0,0 +1,29 @@
+@@ -0,0 +1,36 @@
 +#!/usr/bin/env bash
 +
 +# set -euo pipefail
 +# IFS=$'\n\t'
-+
 +
 +# Auto-abort merge conflicts, not possible when bash exits after those arise
 +function abort_merge_conflicts() {
@@ -81,6 +80,17 @@ index 0000000000..f4ac32148f
 +    fi
 +}
 +
++function fetch_merge() {
++    remote="$1"
++    branch="$2"
++    echo "💗  Updating $branch"
++    git fetch $remote $branch:$branch
++
++    echo "💗  Merging from $remote/$branch"
++    git merge --no-edit $remote/$branch
++    abort_merge_conflicts
++}
++
 +set -x
 +
 +git remote get-url gnu &>/dev/null ||
@@ -88,14 +98,43 @@ index 0000000000..f4ac32148f
 +
 +# git fetch --all
 +
-+echo "💗  Updating master:"
-+git fetch gnu master:master
++upstream_main_branch="${1:-master}"
 +
-+echo "💗  Merging from gnu/master:"
-+git merge --no-edit gnu/master
-+abort_merge_conflicts
++fetch_merge gnu $upstream_main_branch
 +
 +git push --all
+-- 
+2.38.1
+
+
+From abcaedd7e5cd67a2b8c0243a5f1e5e2e7ca2fc14 Mon Sep 17 00:00:00 2001
+From: Daanturo <daanturo@gmail.com>
+Date: Tue, 29 Nov 2022 13:31:36 +0700
+Subject: [PATCH 3/3] Update merger-push.sh
+
+- Make upstream_main_branch mandatory
+
+- Allow optional second remote & branch as $2 & $3
+---
+ merge-push.sh | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/merge-push.sh b/merge-push.sh
+index 8cc428d5a0..705823d846 100755
+--- a/merge-push.sh
++++ b/merge-push.sh
+@@ -29,8 +29,10 @@
+ 
+ # git fetch --all
+ 
+-upstream_main_branch="${1:-master}"
++upstream_main_branch="${1}"
+ 
+ fetch_merge gnu $upstream_main_branch
+ 
++[[ -n "$3" ]] && fetch_merge $2 $3
++
+ git push --all
 -- 
 2.38.1
 

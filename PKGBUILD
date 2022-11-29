@@ -1,27 +1,25 @@
 pkgname="emacs-my-build-git"
-pkgver=29.0.50.1
+pkgver=29.0.60.1
 pkgrel=1
 arch=("x86_64")
 
-pkgdesc="GNU Emacs, with Tree Sitter and more."
+pkgdesc="GNU Emacs."
 url="http://www.gnu.org/software/emacs/"
 license=("GPL3")
 
 depends=(
-    'alsa-lib'
-    'giflib'
-    'gnutls'
-    'gpm'
-    'gtk3'
-    'harfbuzz'
-    'jansson'
-    'libgccjit'
-    'libjpeg-turbo'
-    'libotf'
-    'libxml2'
-    'webkit2gtk'
+    "alsa-lib"                                                     # --with-sound=alsa
+    "giflib" "libjpeg-turbo" "libpng" "libtiff" "libwebp" "libxpm" # images
+    "gnutls" "libxml2"                                             #
+    "gpm"                                                          # mouse support on a GNU/Linux console
+    "gtk3" "libsm" "libxcb" "xcb-util"                             # --with-pgtk
+    "harfbuzz"                                                     # Complex Text Layout support libraries
+    "jansson"                                                      # --with-json
+    "libgccjit"                                                    # --with-native-compilation
+    "tree-sitter"                                                  # --with-tree-sitter
+    "webkit2gtk"                                                   # --with-xwidgets
 )
-makedepends=('git' 'xorgproto' 'libxi')
+makedepends=("git" "gcc" "xorgproto" "libxi")
 
 provides=('emacs')
 replaces=('emacs')
@@ -53,35 +51,39 @@ function prepare() {
     make clean
 }
 
+_config_flags=""
+
+# _config_flags+=" --without-gconf --without-gsettings" # disable synchronizing face with DE, but isn't just using the same font better?
+_config_flags+=" --program-transform-name='s/\(ctags\)/\1.emacs/'" # https://ctags.io/ conflict
+_config_flags+=" --with-json"
+_config_flags+=" --with-libsystemd"
+_config_flags+=" --with-mailutils" # otherwise builds and installs auxiliary 'movemail', a limited and insecure substitute
+_config_flags+=" --with-modules"   # support for dynamic modules
+_config_flags+=" --with-native-compilation"
+_config_flags+=" --with-pgtk --without-xaw3d"
+_config_flags+=" --with-sound=alsa"
+_config_flags+=" --with-tree-sitter"
+_config_flags+=" --with-xinput2" # support for touchscreens, pinch gestures, and scroll wheels that report scroll deltas at pixel-level precision
+_config_flags+=" --with-xwidgets"
+
 function build() {
 
     cd "$srcdir/emacs"
 
     export PATH="/usr/lib/ccache/bin/:$PATH"
 
-    local _confflags=" \
+    local prefixes=" \
     --sysconfdir=/etc \
     --prefix=/usr \
     --libexecdir=/usr/lib \
     --localstatedir=/var \
     "
 
-    ./configure \
-        ${_confflags} \
-        --program-transform-name='s/\(ctags\)/\1.emacs/' \
-        --with-json \
-        --with-libsystemd \
-        --with-mailutils \
-        --with-modules \
-        --with-pgtk --without-xaw3d \
-        --with-sound=alsa \
-        --with-xinput2 \
-        --with-xwidgets \
-        --without-compress-install \
-        --with-native-compilation=aot \
-        --with-tree-sitter
-    # --without-gconf
-    # --without-gsettings
+    # options specific for a system-wide installation
+    _config_flags+=" --with-native-compilation=aot"
+    _config_flags+=" --without-compress-install"
+
+    ./configure ${prefixes} $_config_flags
 
     make
 
