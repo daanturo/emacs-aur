@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Rename the .pkg.tar should it become distinguishable
+
+set -x
+
+pkgtar="$1"
+
+vc_ver=$(emacs --batch --eval "(princ emacs-repository-version)")
+
+architecture="$(uname -m)"
+
+new_name=$(sed -E "s/-${architecture}\.pkg/-${architecture}-${vc_ver}.pkg/" <<<$pkgtar)
+
+mv "$pkgtar" "$new_name"
