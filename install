@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+sudo -v
+./prepare
+time makepkg -si --noconfirm
+
+rm -rf ~/.config/emacs/.local/straight/build-$(emacs --batch --eval "(princ emacs-version)")/straight/
+doom build -r
+
+./tag-pkg-tar *$(uname -m).pkg.tar.zst
