@@ -13,3 +13,5 @@ architecture="$(uname -m)"
 new_name=$(sed -E "s/-${architecture}\.pkg/-${architecture}-${vc_ver}.pkg/" <<<$pkgtar)
 
 mv "$pkgtar" "$new_name"
+
+pwd
