@@ -8,6 +8,7 @@ url="http://www.gnu.org/software/emacs/"
 license=("GPL3")
 
 depends=(
+
     "alsa-lib"                         # --with-sound=alsa
     "gnutls" "libxml2"                 #
     "gpm"                              # mouse support on a GNU/Linux console
@@ -16,7 +17,7 @@ depends=(
     "jansson"                          # --with-json
     "libgccjit"                        # --with-native-compilation
     "tree-sitter"                      # --with-tree-sitter
-    "webkit2gtk"                       # --with-xwidgets
+    "webkit2gtk" "webkit2gtk-4.1"      # --with-xwidgets
 
     "giflib" "libjpeg-turbo" "libpng" "libtiff" "libwebp" "libxpm" # images
 )
