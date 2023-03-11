@@ -31,9 +31,12 @@ _REPO_URL='https://gitlab.com/daemacs-daan/emacs.git'
 # _REPO_URL='https://git.savannah.gnu.org/git/emacs.git'
 # _REPO_URL='https://emba.gnu.org/emacs/emacs.git'
 # _REPO_URL='https://github.com/emacs-mirror/emacs.git'
-_REPO_BRANCH="${_REPO_BRANCH:-}"
 
-source=("emacs::git+${_REPO_URL}#$([[ -n $_REPO_BRANCH ]] && echo "branch=$_REPO_BRANCH")")
+# https://wiki.archlinux.org/title/PKGBUILD#source
+# https://man.archlinux.org/man/PKGBUILD.5#USING_VCS_SOURCES
+_SOURCE_FRAGMENT="${_SOURCE_FRAGMENT:-}"
+
+source=("emacs::git+${_REPO_URL}#$([[ -n $_SOURCE_FRAGMENT ]] && echo "$_SOURCE_FRAGMENT")")
 
 cksums=('SKIP')
 
