@@ -37,6 +37,7 @@ _REPO_URL='https://gitlab.com/daemacs-daan/emacs.git'
 _SOURCE_FRAGMENT="${_SOURCE_FRAGMENT:-}"
 
 source=("emacs::git+${_REPO_URL}#$([[ -n $_SOURCE_FRAGMENT ]] && echo "$_SOURCE_FRAGMENT")")
+# echo "${source[@]}"
 
 cksums=('SKIP')
 
