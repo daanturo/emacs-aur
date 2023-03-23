@@ -1,0 +1,20 @@
+#!/usr/bin/env -S emacs -q -l
+;; -*- mode: emacs-lisp; lexical-binding: t; -*-
+
+(fido-vertical-mode)
+
+(electric-pair-mode)
+(cua-mode) (global-set-key (kbd "C-S-z") #'undo-redo)
+
+(customize-set-variable 'custom-enabled-themes '(modus-vivendi))
+(global-display-line-numbers-mode)
+(global-set-key (kbd "C-<tab>") #'switch-to-buffer)
+(global-set-key (kbd "M-o") #'other-window)
+(recentf-mode)
+(setq completion-styles '(flex basic))
+(setq enable-recursive-minibuffers t)
+(setq-default tab-always-indent 'complete completion-auto-select t)
+(winner-mode)
+
+(with-eval-after-load 'package
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")))

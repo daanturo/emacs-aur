@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+sudo -v
+./bin-prepare
+time makepkg -si --noconfirm
+
+emacs_version=$(emacs --batch --eval "(princ emacs-version)")
+doom_straight_build_relative_path=".local/straight/build-$emacs_version/straight"
+
+rm -rf ~/.config/emacs/$doom_straight_build_relative_path
+rm -rf ~/.local/share/emacs/doom-emacs/$doom_straight_build_relative_path
+
+doom build -r
+
+./bin-tag-pkg-tar *$(uname -m).pkg.tar.zst

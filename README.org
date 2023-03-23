@@ -1,5 +1,8 @@
+* About
 Additional patches:
 - 0000-my-emacs-patches.patch
 
 Also consider:
 - https://github.com/emacs-lsp/emacs/tree/json-rpc
+
+* Notes

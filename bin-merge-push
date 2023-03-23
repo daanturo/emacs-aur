@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# set -euo pipefail
+# IFS=$'\n\t'
+
+# Auto-abort merge conflicts, not possible when bash exits after those arise
+function abort_merge_conflicts() {
+    if [[ ! $(git ls-files -u) = "" ]]; then
+        echo "💗  Aborting merge"
+        git merge --abort
+    fi
+}
+
+function fetch_merge() {
+    remote="$1"
+    branch="$2"
+    echo "💗  Updating $branch"
+    git fetch $remote $branch:$branch
+
+    echo "💗  Merging from $remote/$branch"
+    git merge --no-edit $remote/$branch
+    abort_merge_conflicts
+}
+
+set -x
+
+git remote get-url gnu &>/dev/null ||
+    git remote add gnu https://git.savannah.gnu.org/git/emacs.git
+
+# git fetch --all
+
+upstream_branch="${1}"
+
+fetch_merge gnu $upstream_branch
+
+[[ -n "$3" ]] && fetch_merge $2 $3
+
+git push --all

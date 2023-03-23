@@ -70,7 +70,6 @@ _config_flags+=" --with-modules"   # support dynamic modules ; default since 27
 _config_flags+=" --with-native-compilation"
 _config_flags+=" --with-pgtk --without-xaw3d"
 _config_flags+=" --with-sound=alsa"
-_config_flags+=" --with-tree-sitter"
 _config_flags+=" --with-xinput2" # support touchscreens, pinch gestures, scroll wheels at pixel-level precision ; default since 29
 _config_flags+=" --with-xwidgets"
 _config_flags+=" --without-gconf --without-gsettings"
