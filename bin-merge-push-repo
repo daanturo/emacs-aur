@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Must be ran inside the source repository directory
+
 # set -euo pipefail
 # IFS=$'\n\t'
 

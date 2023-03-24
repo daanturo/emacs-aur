@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
+dir="$(realpath $(dirname $0))"
+
 sudo -v
-./bin-prepare
+
+./bin-ensure-updated-source-to-build
+
 time makepkg -si --noconfirm
 
 emacs_version=$(emacs --batch --eval "(princ emacs-version)")
@@ -12,4 +16,4 @@ rm -rf ~/.local/share/emacs/doom-emacs/$doom_straight_build_relative_path
 
 doom build -r
 
-./bin-tag-pkg-tar *$(uname -m).pkg.tar.zst
+./bin-tag-pkg-tar-after-build *$(uname -m).pkg.tar.zst
