@@ -91,10 +91,10 @@ _config_flags+=" $prefix_switch "
 
 ./configure $_config_flags $@
 
-make -j$(($(nproc) / 2)) install
+make -j$(($(nproc) / 2)) install && (
 
-### Finally
+    ln -sf $prefix_dir/bin/emacs ~/.local/bin-fallback/emacs-"$tag"
 
-ln -sf $prefix_dir/bin/emacs ~/.local/bin-fallback/emacs-"$tag"
+    chmod -R a-w "$prefix_dir"
 
-chmod -R a-w "$prefix_dir"
+)
