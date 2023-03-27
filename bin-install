@@ -8,12 +8,6 @@ sudo -v
 
 time makepkg -si --noconfirm
 
-emacs_version=$(emacs --batch --eval "(princ emacs-version)")
-doom_straight_build_relative_path=".local/straight/build-$emacs_version/straight"
-
-rm -rf ~/.config/emacs/$doom_straight_build_relative_path
-rm -rf ~/.local/share/emacs/doom-emacs/$doom_straight_build_relative_path
-
-doom build -r
+./bin-post-install
 
 ./bin-tag-pkg-tar-after-build *$(uname -m).pkg.tar.zst

@@ -51,7 +51,7 @@ arch_PKBUILD_depends "$dir/.."
 
 ### Initialize
 
-tag="$version-$(date '+%F_%H-%M-%S')-$(git rev-parse HEAD)-$(git symbolic-ref --short HEAD)"
+tag="$version_$(date '+%F_%H-%M-%S')_$(git rev-parse HEAD)_$(git symbolic-ref --short HEAD)"
 
 # export PATH="/usr/lib/ccache/bin/:$PATH"
 
@@ -93,8 +93,11 @@ _config_flags+=" $prefix_switch "
 
 make -j$(($(nproc) / 2)) install && (
 
-    ln -sf $prefix_dir/bin/emacs ~/.local/bin-fallback/emacs-"$tag"
+    ln -sf "$prefix_dir"/bin/emacs-${version} ~/.local/bin-fallback/emacs-"$tag"
+    test -f ~/.local/bin-fallback/emacs-${version} || ln -s "$prefix_dir"/bin/emacs-${version} ~/.local/bin-fallback/emacs-${version}
 
-    chmod -R a-w "$prefix_dir"
+    ln -sf "$prefix_dir"/bin/emacs-${version} ~/.local/bin-fallback/emacs-last-build
+
+    chmod -R a-w ""$prefix_dir""
 
 )

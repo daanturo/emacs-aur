@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+dir="$(realpath $(dirname $0))"
+
+# rebuild straight such that it won't throw "No catch for tag: emacs-version-changed"
+
+emacs_version=$(emacs --batch --eval "(princ emacs-version)")
+doom_straight_build_relative_path=".local/straight/build-$emacs_version/straight"
+
+# default location
+rm -rf ~/.config/emacs/$doom_straight_build_relative_path
+
+# another chemacs / doom profile
+rm -rf ~/.local/share/emacs/doom-emacs/$doom_straight_build_relative_path
+
+doom build -r
+doom sync -v
