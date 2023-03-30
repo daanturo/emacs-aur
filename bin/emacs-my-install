@@ -51,7 +51,7 @@ arch_PKBUILD_depends "$dir/.."
 
 ### Initialize
 
-tag="$version_$(date '+%F_%H-%M-%S')_$(git rev-parse HEAD)_$(git symbolic-ref --short HEAD)"
+tag="${version}_$(date '+%F_%H-%M-%S')_$(git rev-parse HEAD)_$(git symbolic-ref --short HEAD)"
 
 # export PATH="/usr/lib/ccache/bin/:$PATH"
 
