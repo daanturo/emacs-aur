@@ -72,14 +72,7 @@ fi
 
 prefix_dir=${prefix_switch/--prefix=/}
 
-make clean
-
-[[ -f ./autogen.sh ]] && ./autogen.sh
-[[ -f ./autogen ]] && ./autogen
-
 [[ -d "$prefix_dir" ]] && chmod -R u+w "$prefix_dir"
-
-### Build
 
 _config_flags+=" $prefix_switch "
 
@@ -89,9 +82,25 @@ _config_flags+=" $prefix_switch "
 #     _config_flags=$(sed -E "s/ ${flag}[^ ]*//" <<<"$_config_flags")
 # done
 
-./configure $_config_flags $@
+function install() {
 
-make -j$(($(nproc) / 2)) install && (
+    [[ -f ./autogen.sh ]] && ./autogen.sh
+    [[ -f ./autogen ]] && ./autogen
+    ./configure $_config_flags $@
+
+    make -j$(($(nproc) / 2)) install
+}
+
+### Build
+
+(
+    make clean
+    install || (
+        rm -rf "$prefix_dir"
+        make extraclean
+        install
+    )
+) && (
 
     ln -sf "$prefix_dir"/bin/emacs-${version} ~/.local/bin-fallback/emacs-"$tag"
     test -f ~/.local/bin-fallback/emacs-${version} || ln -s "$prefix_dir"/bin/emacs-${version} ~/.local/bin-fallback/emacs-${version}
