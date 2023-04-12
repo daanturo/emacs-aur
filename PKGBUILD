@@ -1,5 +1,5 @@
 pkgname="emacs-my-build-git"
-pkgver=29.0.60.1
+pkgver=29.0.90.1
 pkgrel=1
 arch=("x86_64")
 
