@@ -14,4 +14,4 @@ rm -rf ~/.config/emacs/$doom_straight_build_relative_path
 rm -rf ~/.local/share/emacs/doom-emacs/$doom_straight_build_relative_path
 
 doom build -r
-doom sync -v
+doom sync
