@@ -74,6 +74,7 @@ _config_flags+=" --with-xinput2" # support touchscreens, pinch gestures, scroll 
 _config_flags+=" --with-xwidgets"
 _config_flags+=" --without-gconf --without-gsettings"
 _config_flags+=" --without-libotf --without-m17n-flt" # no need when harfbuzz
+_config_flags+=" --with-small-ja-dic"                 # reduce installation size
 
 function build() {
 
