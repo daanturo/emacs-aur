@@ -1,5 +1,5 @@
 pkgname="emacs-my-build-git"
-pkgver=29.0.90.1
+pkgver=29.0.91.1
 pkgrel=1
 arch=("x86_64")
 
@@ -24,8 +24,8 @@ depends=(
 makedepends=("git" "gcc" "xorgproto" "libxi")
 
 provides=('emacs')
-replaces=('emacs')
-conflicts=('emacs')
+# replaces=('emacs')
+# conflicts=('emacs')
 
 _REPO_URL='https://gitlab.com/daemacs-daan/emacs.git'
 # _REPO_URL='https://git.savannah.gnu.org/git/emacs.git'
@@ -82,11 +82,10 @@ function build() {
 
     export PATH="/usr/lib/ccache/bin/:$PATH"
 
+    # error: /usr/local/share/man exists in filesystem (owned by filesystem)
     local prefixes=" \
-    --sysconfdir=/etc \
-    --prefix=/usr \
-    --libexecdir=/usr/lib \
-    --localstatedir=/var \
+    --prefix=/usr/local \
+    --mandir=/usr/local/man \
     "
 
     # options specific for a system-wide installation
