@@ -74,7 +74,7 @@ prefix_dir=${prefix_switch/--prefix=/}
 
 [[ -d "$prefix_dir" ]] && chmod -R u+w "$prefix_dir"
 
-_config_flags+=" $prefix_switch "
+_config_flags+=" $prefix_switch $@ "
 
 # # remove overridden flags, but may not be needed?
 # for opt in $@; do
@@ -86,7 +86,7 @@ function install() {
 
     [[ -f ./autogen.sh ]] && ./autogen.sh
     [[ -f ./autogen ]] && ./autogen
-    ./configure $_config_flags $@
+    ./configure $_config_flags
 
     make -j$(($(nproc) / 2)) install
 }
