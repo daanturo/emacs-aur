@@ -1,33 +1,40 @@
-From 881d17ae0791180038d71b2cc50ac3de7f32af4f Mon Sep 17 00:00:00 2001
+From d6290ae17633a1bf219f3638eccd9405fcfd5774 Mon Sep 17 00:00:00 2001
 From: Daanturo <daanturo@gmail.com>
-Date: Sat, 10 Jun 2023 21:06:49 +0700
+Date: Wed, 5 Jul 2023 17:58:28 +0700
 Subject: [PATCH] Make PGTK fallback to -nw when display is unavailable
 
 * src/dispnew.c (init_display_interactive): let the PGTK build fallback
-to "-nw" when neither of DISPLAY and WAYLAND_DISPLAY is set. (Bug#63555)
+to "-nw" when neither of DISPLAY and WAYLAND_DISPLAY is set, and TERM is
+"LINUX". (Bug#63555)
 ---
- src/dispnew.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ src/dispnew.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/src/dispnew.c b/src/dispnew.c
-index 65d9cf9b4e1..0f15e1f420f 100644
+index 65d9cf9b4e1..5db21ba6b64 100644
 --- a/src/dispnew.c
 +++ b/src/dispnew.c
-@@ -6559,8 +6559,22 @@ init_display_interactive (void)
+@@ -6559,8 +6559,28 @@ init_display_interactive (void)
  #ifdef HAVE_PGTK
    if (!inhibit_window_system && !will_dump_p ())
      {
 -      Vinitial_window_system = Qpgtk;
 -      return;
-+      // bug#63555 https://yhetil.org/emacs/87ttwbawse.fsf@vps.thesusis.net/T/#u
++      // bug#63555
++      // https://yhetil.org/emacs/87ttwbawse.fsf@vps.thesusis.net/T/#u
 +      // GTK-warning cannot open display
 +      char *display = getenv ("DISPLAY");
 +      char *wayland_display = getenv ("WAYLAND_DISPLAY");
++      // The 2 env variables above are unset too frequently, we need
++      // additional checks
++      char *term = getenv ("TERM");
 +      if ((display == NULL || display[0] == '\0')
-+	  && (wayland_display == NULL || wayland_display[0] == '\0'))
++	  && (wayland_display == NULL || wayland_display[0] == '\0')
++	  && (strcmp (term, "LINUX") == 0))
 +	{
-+	  fprintf (stderr, "Neither DISPLAY nor WAYLAND_DISPLAY is "
-+			   "set, simulating -nw\n");
++	  fprintf (stderr,
++		   "Neither DISPLAY nor WAYLAND_DISPLAY is set, and "
++		   "TERM is LINUX, simulating -nw\n");
 +	  inhibit_window_system = 1;
 +	}
 +      else
