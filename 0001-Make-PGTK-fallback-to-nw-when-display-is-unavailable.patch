@@ -1,4 +1,4 @@
-From d6290ae17633a1bf219f3638eccd9405fcfd5774 Mon Sep 17 00:00:00 2001
+From a4f0d3e87e44ee764185389eaf743e15ac7a7ffc Mon Sep 17 00:00:00 2001
 From: Daanturo <daanturo@gmail.com>
 Date: Wed, 5 Jul 2023 17:58:28 +0700
 Subject: [PATCH] Make PGTK fallback to -nw when display is unavailable
@@ -11,7 +11,7 @@ to "-nw" when neither of DISPLAY and WAYLAND_DISPLAY is set, and TERM is
  1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/src/dispnew.c b/src/dispnew.c
-index 65d9cf9b4e1..5db21ba6b64 100644
+index 65d9cf9b4e1..9f3497727eb 100644
 --- a/src/dispnew.c
 +++ b/src/dispnew.c
 @@ -6559,8 +6559,28 @@ init_display_interactive (void)
@@ -30,11 +30,11 @@ index 65d9cf9b4e1..5db21ba6b64 100644
 +      char *term = getenv ("TERM");
 +      if ((display == NULL || display[0] == '\0')
 +	  && (wayland_display == NULL || wayland_display[0] == '\0')
-+	  && (strcmp (term, "LINUX") == 0))
++	  && (strcmp (term, "linux") == 0))
 +	{
 +	  fprintf (stderr,
 +		   "Neither DISPLAY nor WAYLAND_DISPLAY is set, and "
-+		   "TERM is LINUX, simulating -nw\n");
++		   "TERM is \"linux\", simulating -nw\n");
 +	  inhibit_window_system = 1;
 +	}
 +      else
