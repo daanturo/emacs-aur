@@ -1,5 +1,5 @@
 pkgname="emacs-my-build-git"
-pkgver=29.1.1
+pkgver=29.1.90.1
 pkgrel=1
 arch=("x86_64")
 
@@ -9,21 +9,24 @@ license=("GPL3")
 
 depends=(
 
-    "alsa-lib"                         # --with-sound=alsa
-    "gnutls" "libxml2"                 #
-    "gpm"                              # mouse support on a GNU/Linux console
-    "gtk3" "libsm" "libxcb" "xcb-util" # --with-pgtk
-    "harfbuzz"                         # Complex Text Layout support libraries
-    "jansson"                          # --with-json
-    "libgccjit"                        # --with-native-compilation
-    "tree-sitter"                      # --with-tree-sitter
-    "webkit2gtk" "webkit2gtk-4.1"      # --with-xwidgets
+    # alsa-lib                   # --with-sound=alsa
+    gnutls libxml2             #
+    gpm                        # mouse support on a GNU/Linux console
+    gtk3 libsm libxcb xcb-util # --with-pgtk
+    harfbuzz                   # Complex Text Layout support libraries
+    jansson                    # --with-json
+    libgccjit                  # --with-native-compilation
+    tree-sitter                # --with-tree-sitter
+    webkit2gtk webkit2gtk-4.1  # --with-xwidgets
 
-    "giflib" "libjpeg-turbo" "libpng" "libtiff" "libwebp" "libxpm" # images
+    giflib libjpeg-turbo libpng libtiff libwebp libxpm # images
+
 )
 makedepends=("git" "gcc" "xorgproto" "libxi")
 
-provides=('emacs')
+# $provides will conflict with other non-default Emacs builds
+# provides=('emacs')
+
 # replaces=('emacs')
 # conflicts=('emacs')
 
@@ -69,7 +72,7 @@ _config_flags+=" --with-mailutils" # otherwise builds and installs auxiliary 'mo
 _config_flags+=" --with-modules"   # support dynamic modules ; default since 27
 _config_flags+=" --with-native-compilation"
 _config_flags+=" --with-pgtk --without-xaw3d"
-_config_flags+=" --with-sound=alsa"
+# _config_flags+=" --with-sound=alsa"
 _config_flags+=" --with-xinput2" # support touchscreens, pinch gestures, scroll wheels at pixel-level precision ; default since 29
 _config_flags+=" --with-xwidgets"
 _config_flags+=" --without-gconf --without-gsettings"
