@@ -4,6 +4,8 @@ dir="$(realpath $(dirname $0))"
 
 sudo -v
 
+set -x
+
 ./bin-ensure-updated-source-to-build
 
 time makepkg -si --noconfirm
