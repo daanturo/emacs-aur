@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dir="$(realpath $(dirname $0))"
+dir="$(realpath $(dirname $(realpath $0)))"
 
 _bare_dir="$dir/emacs"
 _src_dir="$dir/src/emacs"

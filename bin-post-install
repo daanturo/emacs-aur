@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dir="$(realpath $(dirname $0))"
+dir="$(realpath $(dirname $(realpath $0)))"
 
 # rebuild straight such that it won't throw "No catch for tag: emacs-version-changed"
 

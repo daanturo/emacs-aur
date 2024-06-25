@@ -2,7 +2,7 @@
 
 # must be run in Emacs's source directory
 
-dir="$(realpath $(dirname $0))"
+dir="$(realpath $(dirname $(realpath $0)))"
 
 set -o pipefail
 
@@ -15,16 +15,21 @@ version=$(grep -E '^AC_INIT' configure.ac | grep -oE ',[^,]*?([0-9]+(\.[0-9]+)+)
 major_version="$(pcregrep -o1 '^([0-9]+)' <<<$version)"
 
 #### Fedora family
-if command -v dnf 2 /dev/null &>1; then
+
+if command -v dnf &>/dev/null; then
     yum install -y dnf-plugins-core epel-release epel-next-release
     sudo dnf config-manager --set-enabled powertools crb
 fi
-command -v yum 2 /dev/null &>1 &&
+
+#### OpenSUSE family
+
+if command -v yum &>/dev/null; then
     sudo yum install -y make gcc autoconf texinfo \
         libX11-devel libXaw-devel \
         libjpeg-turbo-devel libpng-devel libtiff-devel giflib-devel \
         gnutls-devel ncurses-devel \
         libgccjit-devel
+fi
 
 #### Arch
 function arch_PKBUILD_depends() {
@@ -34,8 +39,8 @@ function arch_PKBUILD_depends() {
     source PKGBUILD
     local pkgs="${depends[@]} ${makedepends[@]}"
     # sudo -n -v
-    if command -v pacman 2 /dev/null &>1; then
-        pacman -Q $pkgs &>/dev/null || sudo pacman -Syu --noconfirm --needed $pkgs
+    if command -v pacman &>/dev/null && ! pacman -Q $pkgs &>/dev/null; then
+        sudo pacman -Syu --noconfirm --needed $pkgs
     fi
     cd -
 }
@@ -43,11 +48,15 @@ function arch_PKBUILD_depends() {
 aur_dir=~/.cache/aur/emacs${major_version}-git
 if [[ ! -d $aur_dir ]]; then
     git clone https://aur.archlinux.org/emacs${major_version}-git.git $aur_dir
+    if (($? != 0)); then
+        aur_dir=~/.cache/aur/emacs-git
+        git clone https://aur.archlinux.org/emacs-git.git $aur_dir
+    fi
 fi
 arch_PKBUILD_depends $aur_dir "git pull"
 
 # get config_flags
-arch_PKBUILD_depends "$dir/.."
+arch_PKBUILD_depends "${dir}/.."
 
 ### Initialize
 
