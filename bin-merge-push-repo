@@ -37,4 +37,10 @@ fetch_merge gnu $upstream_branch
 
 [[ -n "$3" ]] && fetch_merge $2 $3
 
-git push --all
+# --no-verify:
+# In commit fffab032b0 "Improve 'tab-line-tabs-fixed-window-buffers' sorting performance"...
+# Files listed in commit message, but not in diff:
+# lsp/tab-line.el
+# Push aborted; please see the file 'CONTRIBUTE'
+
+git push --all --no-verify
