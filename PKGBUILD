@@ -1,5 +1,5 @@
 pkgname="emacs-my-build-git"
-pkgver=30.0.90.1
+pkgver=30.0.91.1
 pkgrel=1
 arch=("x86_64")
 
@@ -17,7 +17,6 @@ depends=(
     jansson                    # --with-json
     libgccjit                  # --with-native-compilation
     tree-sitter                # --with-tree-sitter
-    webkit2gtk webkit2gtk-4.1  # --with-xwidgets
 
     giflib libjpeg-turbo libpng libtiff libwebp libxpm # images
 
@@ -74,10 +73,16 @@ _config_flags+=" --with-native-compilation"
 _config_flags+=" --with-pgtk --without-xaw3d"
 # _config_flags+=" --with-sound=alsa"
 _config_flags+=" --with-xinput2" # support touchscreens, pinch gestures, scroll wheels at pixel-level precision ; default since 29
-_config_flags+=" --with-xwidgets"
 _config_flags+=" --without-gconf --without-gsettings"
 _config_flags+=" --without-libotf --without-m17n-flt" # no need when harfbuzz
 _config_flags+=" --with-small-ja-dic"                 # reduce installation size
+
+# checking for webkit2gtk-4.1 >= 2.12 webkit2gtk-4.1 < 2.41.92... no
+# checking for webkit2gtk-4.0 >= 2.12 webkit2gtk-4.0 < 2.41.92... no
+# configure: error: xwidgets requested but WebKitGTK+ or WebKit framework not found.
+
+# _config_flags+=" --with-xwidgets"
+# depends+=(webkit2gtk webkit2gtk-4.1)
 
 function build() {
 
