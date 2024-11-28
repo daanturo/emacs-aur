@@ -17,7 +17,7 @@ function fetch_merge() {
     remote="$1"
     branch="$2"
     echo "💗  Updating $branch"
-    git fetch $remote $branch:$branch
+    git fetch --update-head-ok $remote $branch:$branch
 
     echo "💗  Merging from $remote/$branch"
     git merge --no-edit $remote/$branch
@@ -26,21 +26,16 @@ function fetch_merge() {
 
 set -x
 
-git remote get-url gnu &>/dev/null ||
-    git remote add gnu https://git.savannah.gnu.org/git/emacs.git
+git remote get-url upstream &>/dev/null ||
+    git remote add upstream https://emba.gnu.org/emacs/emacs.git
 
 # git fetch --all
 
 upstream_branch="${1}"
 
-fetch_merge gnu $upstream_branch
+fetch_merge upstream $upstream_branch
 
 [[ -n "$3" ]] && fetch_merge $2 $3
 
-# --no-verify:
-# In commit fffab032b0 "Improve 'tab-line-tabs-fixed-window-buffers' sorting performance"...
-# Files listed in commit message, but not in diff:
-# lsp/tab-line.el
-# Push aborted; please see the file 'CONTRIBUTE'
-
-git push --all --no-verify
+# In case a commit message breaks
+git push --all || git push --all --no-verify

@@ -1,5 +1,5 @@
 pkgname="emacs-my-build-git"
-pkgver=30.0.91.1
+pkgver=30.0.92.1
 pkgrel=1
 arch=("x86_64")
 
@@ -76,6 +76,7 @@ _config_flags+=" --with-xinput2" # support touchscreens, pinch gestures, scroll 
 _config_flags+=" --without-gconf --without-gsettings"
 _config_flags+=" --without-libotf --without-m17n-flt" # no need when harfbuzz
 _config_flags+=" --with-small-ja-dic"                 # reduce installation size
+_config_flags+=" --disable-gc-mark-trace"             # better GC performance
 
 # checking for webkit2gtk-4.1 >= 2.12 webkit2gtk-4.1 < 2.41.92... no
 # checking for webkit2gtk-4.0 >= 2.12 webkit2gtk-4.0 < 2.41.92... no
