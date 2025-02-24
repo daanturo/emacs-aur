@@ -27,7 +27,7 @@ function fetch_merge() {
 set -x
 
 git remote get-url upstream &>/dev/null ||
-    git remote add upstream https://emba.gnu.org/emacs/emacs.git
+    git remote add upstream https://github.com/emacs-mirror/emacs
 
 # git fetch --all
 

@@ -1,6 +1,6 @@
 From a4f0d3e87e44ee764185389eaf743e15ac7a7ffc Mon Sep 17 00:00:00 2001
 From: Daanturo <daanturo@gmail.com>
-Date: Wed, 5 Jul 2023 17:58:28 +0700
+Date: Wed, 5 Jul 2023 10:58:28 +0000
 Subject: [PATCH] Make PGTK fallback to -nw when display is unavailable
 
 * src/dispnew.c (init_display_interactive): let the PGTK build fallback

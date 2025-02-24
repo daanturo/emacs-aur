@@ -15,4 +15,4 @@ rm -rf ~/.config/emacs/$doom_straight_build_relative_path
 # other profile(s)
 fd --hidden --no-ignore --full-path --fixed-strings "${doom_straight_build_relative_path}" --type directory --exec rm -rf {}
 
-doom sync
+(command -v doom /dev/null 2>&1) && doom sync

@@ -1,6 +1,6 @@
 From ac9fd024e07053f8a30295b081864c6b3a47f005 Mon Sep 17 00:00:00 2001
 From: Daanturo <daanturo@gmail.com>
-Date: Fri, 16 Dec 2022 03:44:58 +0700
+Date: Thu, 15 Dec 2022 20:44:58 +0000
 Subject: [PATCH] Revert "Make the PGTK port display a loud warning when run
  under X"
 
