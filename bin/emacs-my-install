@@ -83,19 +83,18 @@ prefix_dir=${prefix_switch/--prefix=/}
 
 [[ -d "$prefix_dir" ]] && chmod -R u+w "$prefix_dir"
 
-_config_flags+=" $prefix_switch $@ "
-
-# # remove overridden flags, but may not be needed?
-# for opt in $@; do
-#     flag=$(grep -oE '^[^=]+' <<<$opt)
-#     _config_flags=$(sed -E "s/ ${flag}[^ ]*//" <<<"$_config_flags")
-# done
+_config_flags+=("$@")
 
 function install() {
 
     [[ -f ./autogen.sh ]] && ./autogen.sh
     [[ -f ./autogen ]] && ./autogen
-    ./configure $_config_flags
+
+    echo ./configure "${_config_flags[@]}" "${_config_flags_debug[@]}"
+    ./configure "${_config_flags[@]}" "${_config_flags_debug[@]}"
+
+    # echo ./configure "${_config_flags[@]}" "${_config_flags_no_debug[@]}"
+    # ./configure "${_config_flags[@]}" "${_config_flags_no_debug[@]}"
 
     make -j$(($(nproc) / 2)) install
 }
