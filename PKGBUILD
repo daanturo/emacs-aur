@@ -17,14 +17,15 @@ url="http://www.gnu.org/software/emacs/"
 
 depends=(
 
+    libasound.so
     # alsa-lib                   # --with-sound=alsa
     gnutls libxml2             #
     gpm                        # mouse support on a GNU/Linux console
     gtk3 libsm libxcb xcb-util # --with-pgtk
     harfbuzz                   # Complex Text Layout support libraries
-    jansson                    # --with-json
-    libgccjit                  # --with-native-compilation
-    tree-sitter                # --with-tree-sitter
+    # jansson                    # --with-json, Emacs [27, 29]
+    libgccjit   # --with-native-compilation
+    tree-sitter # --with-tree-sitter
 
     giflib libjpeg-turbo libpng libtiff libwebp libxpm # images
 
