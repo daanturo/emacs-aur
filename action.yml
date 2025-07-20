@@ -1,0 +1,16 @@
+# action.yml
+name: "Docker action metadata - Build an Arch package tar ball for Emacs"
+description: ""
+inputs:
+  dummy-input:
+    description: ""
+    required: true
+    default: null
+outputs:
+  dummy-output:
+    description: ""
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.dummy-input }}
