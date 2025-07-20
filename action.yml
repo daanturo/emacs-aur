@@ -1,0 +1,9 @@
+# action.yml
+name: "Docker action metadata - Build an Arch package tar ball for Emacs"
+description: ""
+inputs: null
+outputs: null
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args: null
