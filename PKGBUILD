@@ -4,7 +4,8 @@ pkgbase=emacs
 # versions, no need to distinguish then
 pkgname=(
     "emacs-my-build"
-    # "emacs-my-debug-build"
+    "emacs-my-aot-native-comp-build"
+    "emacs-my-debug-build"
 )
 
 pkgver=30.1.90.1
@@ -145,22 +146,29 @@ function build() {
 
     if printf "%s\0" "${pkgname[@]}" | grep -Fqxz -- "emacs-my-build"; then
         cd "${srcdir}/emacs-my-build"
-        _build_helper "${prefixes[@]}" "${_config_flags[@]}" "${_config_flags_no_debug[@]}"
+        _build_helper "${_config_flags[@]}" "${_config_flags_no_debug[@]}" "${prefixes[@]}"
     fi
 
-    local prefixes_debug=(
-        --prefix=/opt/emacs-my-debug-build/
-    )
+    if printf "%s\0" "${pkgname[@]}" | grep -Fqxz -- "emacs-my-aot-native-comp-build"; then
+        cd "${srcdir}/emacs-my-aot-native-comp-build"
+        _build_helper "${_config_flags[@]}" "${_config_flags_no_debug[@]}" --prefix=/opt/emacs-my-aot-native-comp-build/ --with-native-compilation=aot
+    fi
 
     if printf "%s\0" "${pkgname[@]}" | grep -Fqxz -- "emacs-my-debug-build"; then
         cd "${srcdir}/emacs-my-debug-build"
-        _build_helper "${prefixes_debug[@]}" "${_config_flags[@]}" "${_config_flags_debug[@]}"
+        _build_helper "${_config_flags[@]}" "${_config_flags_debug[@]}" --prefix=/opt/emacs-my-debug-build/
     fi
 
 }
 
 function package_emacs-my-build() {
     cd "emacs-my-build"
+    make DESTDIR="$pkgdir/" install
+    find "$pkgdir" -maxdepth 1 -exec chown -R root:root {} \;
+}
+
+function package_emacs-my-aot-native-comp-build() {
+    cd "emacs-my-aot-native-comp-build"
     make DESTDIR="$pkgdir/" install
     find "$pkgdir" -maxdepth 1 -exec chown -R root:root {} \;
 }
