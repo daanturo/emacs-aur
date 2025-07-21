@@ -5,3 +5,5 @@ Also consider:
 - https://github.com/emacs-lsp/emacs/tree/json-rpc
 
 * Notes
+
+- Download build(s): https://nightly.link/daanturo/emacs-aur/workflows/build/github-action/workspace_artifacts

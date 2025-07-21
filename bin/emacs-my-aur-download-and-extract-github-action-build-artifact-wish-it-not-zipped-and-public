@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# https://github.com/orgs/community/discussions/38706
+# https://github.com/actions/upload-artifact/issues/14
+
+url="${1:-https://nightly.link/daanturo/emacs-aur/workflows/build/github-action/workspace_artifacts.zip}"
+
+set -x
+
+out_file_base="${url//[.:\/]/_}"
+out_file="${out_file_base}.zip"
+
+if test -e "$out_file"; then
+    out_file=$(mktemp "${out_file_base}-$(date +%FT%T).zip")
+fi
+
+if test -e "$out_file"; then
+    out_file=$(mktemp "${out_file_base}-$(date +%FT%T)-XXXX.zip")
+fi
+
+wget "$url" -O "$out_file"
+
+atool -x "$out_file"

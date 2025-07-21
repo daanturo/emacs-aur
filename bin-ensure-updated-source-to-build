@@ -2,14 +2,14 @@
 
 dir="$(realpath $(dirname $(realpath $0)))"
 
-_bare_dir="$dir/emacs"
-_src_dir="$dir/src/emacs"
+# Get repo URL
+source $dir/PKGBUILD
+
+_bare_dir="${dir}/${pkgbase}"
+_src_dir="${dir}/src/${pkgbase}"
 
 # _tmp_bare_dir="$(mktemp -d)"
 _tmp_src_dir="$(mktemp -d)"
-
-# Get repo URL
-source $dir/PKGBUILD
 
 set -x
 
