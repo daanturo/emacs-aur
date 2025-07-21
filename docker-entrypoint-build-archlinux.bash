@@ -18,4 +18,7 @@ runuser -u nobody -- ./bin-ensure-updated-source-to-build
 
 runuser -u nobody -- makepkg
 
+mkdir -p /github/workspace/
+
+# https://docs.github.com/en/actions/tutorials/creating-a-docker-container-action#accessing-files-created-by-a-container-action
 mv *.tar.* /github/workspace/

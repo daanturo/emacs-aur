@@ -1,10 +1,11 @@
-pkgbase=emacs
+pkgbase=emacs-my-build-base
 
 # Technically there should be "-git" prefixes, but since there's no stable
 # versions, no need to distinguish then
 pkgname=(
     "emacs-my-build"
-    # "emacs-my-debug-build"
+    "emacs-my-build-aot-native-comp"
+    "emacs-my-build-debug"
 )
 
 pkgver=30.1.90.1
@@ -145,16 +146,17 @@ function build() {
 
     if printf "%s\0" "${pkgname[@]}" | grep -Fqxz -- "emacs-my-build"; then
         cd "${srcdir}/emacs-my-build"
-        _build_helper "${prefixes[@]}" "${_config_flags[@]}" "${_config_flags_no_debug[@]}"
+        _build_helper "${_config_flags[@]}" "${_config_flags_no_debug[@]}" "${prefixes[@]}"
     fi
 
-    local prefixes_debug=(
-        --prefix=/opt/emacs-my-debug-build/
-    )
+    if printf "%s\0" "${pkgname[@]}" | grep -Fqxz -- "emacs-my-build-aot-native-comp"; then
+        cd "${srcdir}/emacs-my-build-aot-native-comp"
+        _build_helper "${_config_flags[@]}" "${_config_flags_no_debug[@]}" --prefix=/opt/emacs-my-build-aot-native-comp/ --with-native-compilation=aot
+    fi
 
-    if printf "%s\0" "${pkgname[@]}" | grep -Fqxz -- "emacs-my-debug-build"; then
-        cd "${srcdir}/emacs-my-debug-build"
-        _build_helper "${prefixes_debug[@]}" "${_config_flags[@]}" "${_config_flags_debug[@]}"
+    if printf "%s\0" "${pkgname[@]}" | grep -Fqxz -- "emacs-my-build-debug"; then
+        cd "${srcdir}/emacs-my-build-debug"
+        _build_helper "${_config_flags[@]}" "${_config_flags_debug[@]}" --prefix=/opt/emacs-my-build-debug/
     fi
 
 }
@@ -165,8 +167,14 @@ function package_emacs-my-build() {
     find "$pkgdir" -maxdepth 1 -exec chown -R root:root {} \;
 }
 
-function package_emacs-my-debug-build() {
-    cd "emacs-my-debug-build"
+function package_emacs-my-build-aot-native-comp() {
+    cd "emacs-my-build-aot-native-comp"
+    make DESTDIR="$pkgdir/" install
+    find "$pkgdir" -maxdepth 1 -exec chown -R root:root {} \;
+}
+
+function package_emacs-my-build-debug() {
+    cd "emacs-my-build-debug"
     make DESTDIR="$pkgdir/" install
     find "$pkgdir" -maxdepth 1 -exec chown -R root:root {} \;
 }

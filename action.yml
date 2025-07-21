@@ -1,4 +1,6 @@
 # action.yml
+# https://docs.github.com/en/actions/tutorials/creating-a-docker-container-action
+# This should lie in another repository, but putting in the same still works.
 name: "Docker action metadata - Build an Arch package tar ball for Emacs"
 description: ""
 inputs:
