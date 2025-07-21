@@ -6,7 +6,7 @@ jobs:
     name: Build?
     steps:
       - name: docker?
-        uses: daanturo/emacs-aur@v3
+        uses: daanturo/emacs-aur@v4
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
