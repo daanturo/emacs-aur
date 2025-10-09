@@ -8,7 +8,7 @@ pkgname=(
     "emacs-my-build-debug"
 )
 
-pkgver=30.1.90.1
+pkgver=30.2.50.1
 pkgrel=1
 
 arch=("x86_64")

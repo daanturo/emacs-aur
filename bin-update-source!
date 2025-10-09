@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -x
+
+dir="$(realpath $(dirname $(realpath $0)))"
+
+# Assume that the Emacs source directory is this directory's sibling
+cd "${dir}/../emacs"
+
+# tell SSH agent to cache the appropriate key
+git push
+
+read -en1 -p "\"y\" to update \"$(git symbolic-ref --short HEAD)\": " yes
+
+if [[ $yes == "y" ]]; then
+    # "$dir/bin-merge-push-repo" emacs-29 # emacs-lsp json-rpc
+    "$dir/bin-merge-push-repo" emacs-30 # emacs-lsp json-rpc
+fi

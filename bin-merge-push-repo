@@ -38,4 +38,4 @@ fetch_merge upstream $upstream_branch
 [[ -n "$3" ]] && fetch_merge $2 $3
 
 # In case a commit message breaks
-git push --all || git push --all --no-verify
+git push --all || git push --all --no-verify || git push --all --no-verify --force-with-lease

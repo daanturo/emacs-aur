@@ -83,7 +83,7 @@ prefix_dir=${prefix_switch/--prefix=/}
 
 [[ -d "$prefix_dir" ]] && chmod -R u+w "$prefix_dir"
 
-_config_flags+=("$@")
+_config_flags+=("$prefix_switch" "$@")
 
 function install() {
 
