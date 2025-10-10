@@ -11,7 +11,7 @@ out_file_base="${url//[.:\/]/_}"
 out_file="${out_file_base}.zip"
 
 if test -e "$out_file"; then
-    out_file=$(mktemp "${out_file_base}-$(date +%FT%T).zip")
+    out_file="${out_file_base}-$(date +%FT%T).zip"
 fi
 
 if test -e "$out_file"; then

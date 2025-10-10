@@ -10,7 +10,7 @@ jobs:
       options: --user root
     steps:
       - name: Build in Docker
-        uses: daanturo/emacs-aur@v5
+        uses: daanturo/emacs-aur@v6
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
